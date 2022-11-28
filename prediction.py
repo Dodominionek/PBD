@@ -1,6 +1,8 @@
+from plotnine import ggplot, aes, geom_line
+
 data_sequence = open("data01.txt", "r").read()
 print(data_sequence)
-sequence_size = 20
+sequence_size = 10
 probality_of_one = 0.5
 sequence_predictions = {}
 sequence_probability = {}
@@ -10,6 +12,7 @@ hit = 0
 
 
 accuracies = []
+hits = []
 
 def updateProb(occ, prob):
     updatedProb = 0
@@ -64,8 +67,8 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
                     sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one - updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
                     sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
                 elif ch == '0':
-                    sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one + updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
-                    sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] + 1
+                    sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one - updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
+                    sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
         else:
             if ch == sequence_predictions[str(data_sequence[0 + i:sequence_size + i])]:
                 if ch == '1':
@@ -78,17 +81,15 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
                     hit += 1
             else:
                 if ch == '1':
-                    sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one + updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
-                    sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] + 1
+                    sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one - updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
+                    sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
                 elif ch == '0':
                     sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one - updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
                     sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
 
-    if i == 300 or i == 500 or i == 1000:
-
+    if i == 300 or i == 500 or i == 1000 or i == 5000 or i == 10000 or i == 20000 - sequence_size:
         accuracies.append(float(hit/i))
-        print(F"NUMER I: {str(i)} blad: {accuracies} = {hit} / {i}")
-        pass
+        hits.append(hit)
 
     i += 1
 
@@ -100,4 +101,6 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
 # print(sequence_occurences)
 # print("\n\n")
 
-print(hit / i)
+print(F"NUMER I: {str(i + sequence_size)} blad: {accuracies} = {hit} / {i + sequence_size}")
+
+# print(hit / i)
