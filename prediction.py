@@ -1,7 +1,8 @@
 from plotnine import ggplot, aes, geom_line
+import pandas as pd
 
 data_sequence = open("data01.txt", "r").read()
-print(data_sequence)
+#print(data_sequence)
 sequence_size = 10
 probality_of_one = 0.5
 sequence_predictions = {}
@@ -13,6 +14,8 @@ hit = 0
 
 accuracies = []
 hits = []
+positions = []
+data_to_plot = {}
 
 def updateProb(occ, prob):
     updatedProb = 0
@@ -87,9 +90,12 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
                     sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one - updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
                     sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
 
-    if i == 300 or i == 500 or i == 1000 or i == 5000 or i == 10000 or i == 20000 - sequence_size:
+    if i == 300 or i == 500 or i == 1000 or i == 5000 or i == 10000 or i == 20000 - sequence_size - 1:
         accuracies.append(float(hit/i))
         hits.append(hit)
+        positions.append(i)
+        data_to_plot[i] = hit
+
 
     i += 1
 
@@ -102,5 +108,25 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
 # print("\n\n")
 
 print(F"NUMER I: {str(i + sequence_size)} blad: {accuracies} = {hit} / {i + sequence_size}")
+
+print(data_to_plot)
+
+pd_data = pd.DataFrame(
+    [
+        [300, accuracies[0]],
+        [500, accuracies[1]],
+        [1000, accuracies[2]],
+        [5000, accuracies[3]],
+        [10000, accuracies[4]],
+        [20000, accuracies[5]]
+    ],
+    columns=['characters', 'errors']    
+)
+
+#pd_data = pd.DataFrame([data_to_plot])
+
+print(pd_data)
+g = ggplot(pd_data) + aes(x='characters', y='errors') + geom_line()
+print(g)
 
 # print(hit / i)
