@@ -1,7 +1,7 @@
 from plotnine import ggplot, aes, geom_line
 import pandas as pd
 
-data_sequence = open("data04.txt", "r").read()
+data_sequence = open("data05.txt", "r").read()
 #print(data_sequence)
 sequence_size = 10
 probality_of_one = 0.5
@@ -90,7 +90,8 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
                     sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one - updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
                     sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
 
-    if i % 100 == 0 and i != 0:
+    # if (i % 100 == 0 or i < 100) and i != 0:
+    if i != 0:
         accuracies.append(float(hit/i))
         hits.append(hit)
         positions.append(i)
@@ -109,7 +110,7 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
 # print(sequence_occurences)
 # print("\n\n")
 
-print(F"NUMER I: {str(i + sequence_size)} blad: {accuracies} = {hit} / {i + sequence_size}")
+# print(F"NUMER I: {str(i + sequence_size)} blad: {accuracies} = {hit} / {i + sequence_size}")
 
 print(data_to_plot)
 
@@ -119,12 +120,15 @@ pdd = ({
     'errors': [accuracies[0]]
 })
 for elem in accuracies:
-    pdd['characters'].append(j * 100)
+    pdd['characters'].append(j)
     pdd['errors'].append(elem)
-    print(pdd)
+    # print(pdd)
     j += 1
 
 pd_data = pd.DataFrame(pdd, columns=['characters', 'errors'])
+
+pd_data.drop(pd_data.loc[pd_data['characters'] < sequence_size].index, inplace=True)
+pd_data.drop(pd_data.loc[pd_data['errors'] > 1].index, inplace=True)
 
 print(pd_data)
 g = ggplot(pd_data) + aes(x='characters', y='errors') + geom_line()
