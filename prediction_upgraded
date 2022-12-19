@@ -5,7 +5,7 @@ from random import choices
 population = [0, 1]
 weights = [0.5, 0.5]
 
-data_sequence = open("data03.txt", "r").read()
+data_sequence = open("data01.txt", "r").read()
 #print(data_sequence)
 sequence_size = 20
 probality_of_one = 0.5
@@ -93,7 +93,7 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
                     sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
                     if sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] == 0:
                         sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = 1
-                        sequence_predictions[str(data_sequence[0 + i:sequence_size + i])] = 1
+                        sequence_predictions[str(data_sequence[0 + i:sequence_size + i])] = 0
                     sequence_hits[str(data_sequence[0 + i:sequence_size + i])] = sequence_hits[str(data_sequence[0 + i:sequence_size + i])] + 1
                     sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], sequence_hits[str(data_sequence[0 + i:sequence_size + i])])
                 elif ch == '0':
@@ -110,7 +110,7 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
                     sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
                     if sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] == 0:
                         sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = 1
-                        sequence_predictions[str(data_sequence[0 + i:sequence_size + i])] = 1
+                        sequence_predictions[str(data_sequence[0 + i:sequence_size + i])] = 0
                     sequence_hits[str(data_sequence[0 + i:sequence_size + i])] = sequence_hits[str(data_sequence[0 + i:sequence_size + i])] + 1
                     sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], sequence_hits[str(data_sequence[0 + i:sequence_size + i])])
                     hit += 1
@@ -126,7 +126,7 @@ for ch in data_sequence[sequence_size:len(data_sequence):1]:
                     sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] - 1
                     if sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] == 0:
                         sequence_occurences[str(data_sequence[0 + i:sequence_size + i])] = 1
-                        sequence_predictions[str(data_sequence[0 + i:sequence_size + i])] = 1
+                        sequence_predictions[str(data_sequence[0 + i:sequence_size + i])] = 0
                     sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], sequence_hits[str(data_sequence[0 + i:sequence_size + i])])
                 elif ch == '0':
                     # sequence_probability[str(data_sequence[0 + i:sequence_size + i])] = probality_of_one - updateProb(sequence_occurences[str(data_sequence[0 + i:sequence_size + i])], our_param)
