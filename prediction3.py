@@ -165,7 +165,7 @@ print(data_to_plot)
 
 j = 1
 pdd = ({
-    'characters': [0],
+    'size [bites]': [0],
     'errors': [accuracies[0]]
 })
 for elem in accuracies:
@@ -175,15 +175,15 @@ for elem in accuracies:
     # j += 1
 
 for el in sizes:
-   pdd['characters'].append(el) 
+   pdd['size [bites]'].append(el) 
 
-pd_data = pd.DataFrame(pdd, columns=['characters', 'errors'])
+pd_data = pd.DataFrame(pdd, columns=['size [bites]', 'errors'])
 
 # pd_data.drop(pd_data.loc[pd_data['characters'] < sequence_size].index, inplace=True)
 pd_data.drop(pd_data.loc[pd_data['errors'] > 1].index, inplace=True)
 
 print(pd_data)
-g = ggplot(pd_data) + aes(x='characters', y='errors') + geom_line()
+g = ggplot(pd_data) + aes(x='size [bites]', y='errors') + geom_line()
 print(g)
 
 # print(hit / i)
